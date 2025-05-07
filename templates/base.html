@@ -1,0 +1,27 @@
+{% load static tailwind_tags %}
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% tailwind_css %}
+    {% include 'base/js.html' %}
+    <title>
+      {% block head_title %}
+      from base
+      {% endblock head_title %}
+    </title>
+  </head>
+  <body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' class="bg-white dark:bg-gray-900">
+  {% include 'base/navbar.html' %}
+  <div class="{% if '/logout' in request.path or '/login' in request.path %} {% else %}px-4 mx-auto max-w-screen-xl{% endif %}">
+    {% block content %}
+    <h1 class="text-3xl font-bold underline">
+      Hello world from base!
+    </h1>
+    {% endblock content %}
+    </div>
+  </body>
+  <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
+{% include 'base/footer.html' %}
+</html>
