@@ -5,6 +5,8 @@ from django.conf import settings
 from django.contrib import messages
 from .forms import EmailForm
 from django_htmx.http import HttpResponseClientRedirect
+from courses.models import Course, Students
+from courses import services as course_services
 # Create your views here.
 
 EMAIL_ADDRESS = settings.EMAIL_ADDRESS
@@ -24,6 +26,7 @@ def logout_btn_hx_view(request):
 
     return render(request, 'emails/hx/logout-btn.html')
 
+
 def email_token_login_view(request):
     if not request.htmx:
         return redirect('/')
@@ -37,13 +40,26 @@ def email_token_login_view(request):
     }
     if form.is_valid():
         email_val = form.cleaned_data.get('email')
+        course_id = request.session.get('course_obj_id')
+        course_obj = course_services.get_course_detail(course_id=course_id)
+        is_whitelisted = Students.objects.filter(
+            course=course_obj,
+            email=email_val
+        ).exists()
+        if not is_whitelisted:
+            print('not whitelisted')
+            context['not_allowed'] = True
+            context['message'] = 'This email is not allowed.'
+            return render(request, template, context)
+        print(email_val)
         obj = services.start_verification_event(email_val)
         print(obj)
         context['form'] = EmailForm()
         context['message'] = f'success you have access. message from {EMAIL_ADDRESS}'
     else:
         print(form.errors)
-    print('email_id', request.session.get('email_id'))
+    print('email_id', request.session.get('email'))
+    print('okkkkk')
     return render(request, template, context)
 
 

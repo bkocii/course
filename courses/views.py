@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
-from django.http import Http404, JsonResponse
+from django.http import Http404, JsonResponse, HttpResponseBadRequest, HttpResponseNotFound, HttpResponseForbidden
 from . import services
 import helpers
+from courses.models import Lesson, Students
 # Create your views here.
 
 
@@ -32,12 +33,16 @@ def course_detail_view(request, course_id=None, *args, **kwargs):
 
 def lesson_detail_view(request, course_id=None, lesson_id=None, *args, **kwargs):
     lesson_obj = services.get_lesson_detail(course_id=course_id, lesson_id=lesson_id)
+    course_obj = services.get_course_detail(course_id=course_id)
     if lesson_obj is None:
         return Http404
     email_id_exists = request.session.get('email_id')
     if lesson_obj.requires_email and not email_id_exists:
         request.session['next_url'] = request.path
+        request.session['lesson_obj_id'] = lesson_obj.public_id
+        request.session['course_obj_id'] = course_obj.public_id
         return render(request, 'courses/email-required.html')
+
     template_name = 'courses/lesson-coming-soon.html'
     context = {
         'object': lesson_obj

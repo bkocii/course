@@ -40,14 +40,15 @@ def send_verification_event(verify_obj_id):
     from_user_email_addr = EMAIL_HOST_USER
     to_user_email = email
     # send verification email
-    return send_mail(
-        subject,
-        text_msg,
-        from_user_email_addr,
-        [to_user_email],
-        fail_silently=False,
-        html_message=html_msg
-    )
+    print('email sent')
+    # return send_mail(
+    #     subject,
+    #     text_msg,
+    #     from_user_email_addr,
+    #     [to_user_email],
+    #     fail_silently=False,
+    #     html_message=html_msg
+    # )
 
 
 def verify_token(token, max_attempts=5):

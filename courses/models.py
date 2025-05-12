@@ -88,6 +88,9 @@ class Course(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.title
+
     def save(self, *args, **kwargs):
         #before save
         if self.public_id == "" or self.public_id is None:
@@ -160,6 +163,9 @@ class Lesson(models.Model):
     class Meta:
         ordering = ['order', '-updated']
 
+    def __str__(self):
+        return self.title
+
     def save(self, *args, **kwargs):
         #before save
         if self.public_id == "" or self.public_id is None:
@@ -211,3 +217,13 @@ class Lesson(models.Model):
         else:
             return None
 
+
+class Students(models.Model):
+    course = models.ForeignKey(Course, null=False, on_delete=models.CASCADE)
+    email = models.EmailField()
+
+    class Meta:
+        unique_together = ('course', 'email')
+
+    def __str__(self):
+        return self.email

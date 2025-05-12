@@ -1,4 +1,8 @@
-{% if show_form %}
+{% if not_allowed %}
+  <div class="text-red-600 text-xl font-bold p-4">
+      {{ message }}
+  </div>
+{% elif show_form %}
     {% if message != "" %}
     {{ message }}
     {% else %}
