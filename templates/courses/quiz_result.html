@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-white text-3xl font-bold text-center mb-6">Quiz Result</h1>
+    <div class="bg-gray-800 p-6 rounded-lg shadow-md text-center">
+        <p class="text-white text-lg mb-2">Score: {{ score }} / {{ total_questions }}</p>
+        <p class="text-white text-lg">Percentage: {{ percentage|floatformat:2 }}%</p>
+    </div>
+    <div class="flex justify-center space-x-4 mt-6">
+        <a href="{{ object.get_absolute_url }}"
+           class="bg-white rounded-lg text-white font-bold shadow-sm py-2 px-4 rounded dark:bg-gray-800">
+            Back to Lesson
+        </a>
+        <a href="{{ course_obj.get_absolute_url }}"
+           class="bg-white rounded-lg text-white font-bold shadow-sm py-2 px-4 rounded dark:bg-gray-800">
+            Back to Courses
+        </a>
+    </div>
+</div>
+{% endblock content %}

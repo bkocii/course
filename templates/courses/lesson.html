@@ -1,9 +1,20 @@
+
 {% extends 'base.html' %}
 
 {% block content %}
-
-<h1 class="text-white flex justify-center items-center">{{ object.title }}</h1>
-<br>
-<div class="flex justify-center items-center">{{ video_embed }}</div>
-
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-white text-3xl font-bold text-center mb-6">{{ object.title }}</h1>
+    <div class="flex justify-center items-center mb-6">{{ video_embed|safe }}</div>
+    {% if quiz %}
+        <div class="flex justify-center">
+            <a href="{% url 'quiz' course_id=object.course.public_id lesson_id=object.public_id %}"
+               class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded">
+                Take Quiz
+            </a>
+        </div>
+    {% endif %}
+    {% if error %}
+        <p class="text-red-500 text-center mt-4">{{ error }}</p>
+    {% endif %}
+</div>
 {% endblock content %}

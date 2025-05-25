@@ -3,7 +3,7 @@ import helpers
 from cloudinary import CloudinaryImage
 from django.utils.html import format_html
 # Register your models here.
-from .models import Course, Lesson, Students
+from .models import Course, Lesson, Students, Quiz, Question, Answer
 
 
 class LessonInline(admin.StackedInline):
@@ -58,3 +58,24 @@ class StudentsAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Students, StudentsAdmin)
+
+
+@admin.register(Quiz)
+class QuizAdmin(admin.ModelAdmin):
+    list_display = ('title', 'lesson')
+    list_filter = ('lesson__course',)
+    search_fields = ('title', 'lesson__title')
+
+@admin.register(Question)
+class QuestionAdmin(admin.ModelAdmin):
+    list_display = ('text', 'quiz')
+    list_filter = ('quiz__lesson__course',)
+    search_fields = ('text',)
+
+@admin.register(Answer)
+class AnswerAdmin(admin.ModelAdmin):
+    list_display = ('text', 'question', 'is_correct')
+    list_filter = ('question__quiz__lesson__course',)
+    search_fields = ('text',)
+
+
