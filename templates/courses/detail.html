@@ -11,7 +11,7 @@
       <div class="flex justify-center items-center lg:mb-8 mb-4">
           <img class="rounded" src="{{ object.get_display_image }}" width="750">
       </div>
-      <div class="flex justify-center items-center text-gray-900 dark:text-white">
+      <div class="flex justify-center items-center text-gray-900 text-2xl lg:text-2xl dark:text-white">
           <div class="max-lg-w">
               {{ object.description|linebreaks }}
           </div>
@@ -22,7 +22,7 @@
 <section class="bg-white dark:bg-gray-900">
   <div>
       <div class="mx-auto max-w-screen-sm text-center">
-          <h2 class="mb-4 text-xl lg:text-xl tracking-tight font-extrabold text-gray-900 dark:text-white">Lessons</h2>
+          <h2 class="mb-4 text-4xl lg:text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Lessons</h2>
       </div>
       {% include 'courses/snippets/list-display.html' with queryset=lesson_queryset %}
   </div>

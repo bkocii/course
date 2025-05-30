@@ -4,7 +4,6 @@ from django.conf import settings
 from emails import services as emails_services
 from emails.models import Email, EmailVerificationEvent
 
-
 def login_logout_view(request):
     return render(request, 'auth/login-logout.html', {})
 

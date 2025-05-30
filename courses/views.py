@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import Http404, JsonResponse, HttpResponseBadRequest, HttpResponseNotFound, HttpResponseForbidden
 from . import services
 import helpers
+from emails.models import Email
 from courses.models import Lesson, Students, Quiz, Question, Answer
 # Create your views here.
 
@@ -42,6 +43,20 @@ def lesson_detail_view(request, course_id=None, lesson_id=None, *args, **kwargs)
         request.session['lesson_obj_id'] = lesson_obj.public_id
         request.session['course_obj_id'] = course_obj.public_id
         return render(request, 'courses/email-required.html')
+
+    email = Email.objects.get(id=email_id_exists)
+    is_whitelisted = Students.objects.filter(
+        course=course_obj,
+        email=email.email
+    ).exists()
+    if not is_whitelisted:
+        print('not whitelisted')
+        template = 'courses/not-registered.html'
+        context = {
+            'object': lesson_obj,
+            'message': 'This email is not registered for this course.'
+        }
+        return render(request, template, context)
 
     template_name = 'courses/lesson-coming-soon.html'
     context = {

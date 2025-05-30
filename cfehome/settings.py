@@ -1,5 +1,5 @@
 #todo: source video: https://www.youtube.com/watch?v=I_IchaIdmnA
-
+# git: https://github.com/codingforentrepreneurs/course-platform
 """
 Django settings for cfehome project.
 

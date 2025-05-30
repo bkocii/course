@@ -52,7 +52,7 @@ admin.site.register(Course, CourseAdmin)
 
 
 class StudentsAdmin(admin.ModelAdmin):
-    list_display = ['email', 'course']
+    list_display = ['email', 'course', 'id']
     list_filter = ['course']
     fields = ['email', 'course']
 
